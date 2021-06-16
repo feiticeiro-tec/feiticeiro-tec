@@ -1,0 +1,6 @@
+- 👋 ola,eu sou o @feiticeiro-tec
+- 👀 sou interessado por tecnologia desde sempre...
+- 🌱 atualmente estou tentando cominar a linguagem python...
+- 📫 instagram @spell_ware
+
+
