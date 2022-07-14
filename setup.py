@@ -11,7 +11,7 @@ setup(
     author='Silvio Henrique Cruz Da Silva',
     long_description=readme,
     long_description_content_type="text/markdown",
-    author_email='silviohenriquecruzdasilva@gmail.com@gmail.com',
+    author_email='silviohenriquecruzdasilva@gmail.com',
     keywords='Pacote',
     description=u'Um Pacote Das Mais Diversas Utilidades.',
     packages=['feiticeiro_tec'],
