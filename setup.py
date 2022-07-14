@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='feiticeiro_tec',
-    version='0.0.1',
+    version='0.0.0.1',
     url='https://github.com/feiticeiro-tec/feiticeiro-tec',
     license='MIT License',
     author='Silvio Henrique Cruz Da Silva',
@@ -15,4 +15,10 @@ setup(
     keywords='Pacote',
     description=u'Um Pacote Das Mais Diversas Utilidades.',
     packages=['feiticeiro_tec'],
-    install_requires=[],)
+    install_requires=[],
+    extras_require={
+        'server': [
+            'flask',
+            'flask-sqlalchemy',
+        ]
+    })
