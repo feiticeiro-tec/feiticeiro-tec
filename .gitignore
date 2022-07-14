@@ -1,0 +1,4 @@
+.venv
+dist
+feiticeiro_tec.egg-info
+.db
