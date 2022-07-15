@@ -1,16 +1,15 @@
-def get_text(data: str,column:str, afters=[]):
+def xml_get_text(text: str,column:str, afters=[]):
     try:
-        data = data
         for after in afters:
-            if data.find(start) == -1:
+            if text.find(start) == -1:
                 return False
-            data = data[data.find(after)+len(after):]
+            text = text[text.find(after)+len(after):]
         start = f'<{column}>'
         end = f'</{column}>'
-        if data.find(start) == -1:
+        if text.find(start) == -1:
             return None
-        data = data[data.find(start)+len(start):]
-        data = data[:data.find(end)]
-        return data
+        text = text[text.find(start)+len(start):]
+        text = text[:text.find(end)]
+        return text
     except:
         ...
