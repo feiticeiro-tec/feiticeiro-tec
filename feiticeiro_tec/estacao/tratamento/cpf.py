@@ -10,35 +10,29 @@ class CPF():
 
     def __validate_size(self,cpf:str):
         cpf = cpf.strip()
-        if len(cpf) == 14:
-            for index,valor in enumerate(cpf):
-                if index in (0,1,2,4,5,6,8,9,10,12,13):
-                    if not valor.isnumeric():
-                        return False
-                elif index in (3,7):
-                    if valor != '.':
-                        raise ValueError('Algo Diference De "." Foi Passado Como Separador.')
-
-                else:
-                    if valor != '-':
-                        raise ValueError('Algo Diference De "-" Foi Passado Como Separador.')
-            return True
-
-        else:
-            with suppress(Exception):
-                if cpf.index('.')>=0:
-                    cpf = cpf.replace('.','')
-            with suppress(Exception):
-                if cpf.index('-')>=0:
-                    cpf = cpf.replace('-','')
-
-            if len(cpf) == 11:
+        with suppress(Exception):
+            if len(cpf) == 14:
                 for index,valor in enumerate(cpf):
-                    if not valor.isnumeric():
-                        raise ValueError('Valores Não Numéricos Foram Passados.')
-                return self.format_to_cpf(cpf)
-            else:
-                raise IndexError('Tamanho Invalido.')
+                    if index in (0,1,2,4,5,6,8,9,10,12,13) and not valor.isnumeric():
+                        raise ValueError()
+                    elif index in (3,7) and  valor != '.':
+                        raise ValueError()
+                    elif valor != '-':
+                        raise ValueError()
+                return cpf
+
+        with suppress(Exception):
+            if cpf.index('.')>=0:
+                cpf = cpf.replace('.','')
+        with suppress(Exception):
+            if cpf.index('-')>=0:
+                cpf = cpf.replace('-','')
+
+        if len(cpf) == 11:
+            for index,valor in enumerate(cpf):
+                if not valor.isnumeric():
+                    raise ValueError('Valores Não Numéricos Foram Passados.')
+            return self.format_to_cpf(cpf)
 
     def format_to_cpf(self,cpf:str):
         cpf_ = ''

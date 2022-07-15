@@ -1,4 +1,6 @@
 .venv
 dist
 feiticeiro_tec.egg-info
+teste*.py
+__pycache__
 .db
