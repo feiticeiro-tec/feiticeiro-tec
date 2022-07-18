@@ -1,5 +1,5 @@
 from contextlib import suppress
-class DictValidate():
+class ValidationDict():
     def __init__(self,data,default=None):
         self._data = dict(data)
         self.default = default
@@ -16,4 +16,4 @@ class DictValidate():
         return response
 
     def __repr__(self) -> str:
-        return f'<DictValidate {list(self._data.keys())}>'
+        return f'<ValidationDict {list(self._data.keys())}>'
