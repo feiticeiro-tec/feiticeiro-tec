@@ -14,7 +14,6 @@ class Secury():
         return super().__getattribute__(value)
 
     def __setattr__(self,attr:str,value):
-
         if attr.startswith('_secury_'):
             print(self._secury_key_lock)
             value = jwt.encode({attr[len('_secury_'):]:value},self._secury_key_lock).decode()
