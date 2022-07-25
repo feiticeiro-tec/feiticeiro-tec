@@ -1,6 +1,7 @@
 import os
 class OpenFile():
     def __init__(self,path,modo='r',force=True):
+        """Abre Um Arquivo De Forma Forçada."""
         self.path = path
         path_list = path.split('/')
         relative = path[0]

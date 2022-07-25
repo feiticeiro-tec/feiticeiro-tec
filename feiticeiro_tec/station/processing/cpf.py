@@ -1,14 +1,14 @@
 from contextlib import suppress
 class CPF():
     def __init__(self,cpf:str):
-        self.__is_string(cpf)
-        self._cpf = self.__validation_len(cpf)
+        self._is_string(cpf)
+        self._cpf = self._validation_len(cpf)
 
-    def __is_string(self,cpf:str):
+    def _is_string(self,cpf:str):
         if type(cpf) != str:
             raise TypeError('CPF Invalido, Requer String.')
 
-    def __validation_len(self,cpf:str):
+    def _validation_len(self,cpf:str):
         cpf = cpf.strip()
         with suppress(Exception):
             if len(cpf) == 14:

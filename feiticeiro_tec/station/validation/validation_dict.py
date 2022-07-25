@@ -7,11 +7,12 @@ class ValidationDict():
     def __getitem__(self,valor):
         return self._data[valor]
 
-    def get(self,key,type=None):
+    def get(self,key,Type=None):
+        """Recebe uma key e com conversor."""
         response = self._data[key]
-        if type:
+        if Type:
             with suppress(Exception):
-                return type(response)
+                return Type(response)
             return self.default
         return response
 
