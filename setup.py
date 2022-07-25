@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='feiticeiro_tec',
-    version='1.2',
+    version='1.3',
     url='https://github.com/feiticeiro-tec/feiticeiro-tec',
     license='MIT License',
     author='Silvio Henrique Cruz Da Silva',
