@@ -19,19 +19,24 @@ with open("README.md", "r") as fh:
 
 setup(
     name="feiticeiro_tec",
-    version="0.0.1",
+    version="0.2.0",
     url="https://github.com/feiticeiro-tec/feiticeiro-tec",
     license="BSD3",
     author="Silvio Henrique Cruz Da Silva",
     long_description=readme,
     long_description_content_type="text/markdown",
     author_email="silviohenriquecruzdasilva@gmail.com",
-    keywords=u"python, feiticeiro_tec, utilidades, feiticeiro, tec",
+    keywords="python, feiticeiro_tec, utilidades, feiticeiro, tec",
     description=("pacote de utilidades para projetos python"),
     packages=listar_subpastas("feiticeiro_tec"),
     install_requires=[
         "loguru",
         "pydantic",
     ],
-    extras_require={"dynaconf": ["dynaconf"], "api": ["fdantic"]},
+    extras_require={
+        "dynaconf": ["dynaconf"],
+        "api": ["fdantic"],
+        "validate": ["validate_docbr"],
+        "request": ["requests"],
+    },
 )

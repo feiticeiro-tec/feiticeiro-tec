@@ -11,7 +11,7 @@ class EnvEnum(Enum):
 
 class TypeEnv(BaseModel):
     ENV: EnvEnum
-    DEBUG: bool
+    DEBUG: bool = False
 
     @classmethod
     def create_config(cls, settings, env):
