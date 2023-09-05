@@ -37,5 +37,6 @@ setup(
         "dynaconf": ["dynaconf"],
         "api": ["fdantic"],
         "validate": ["validate_docbr"],
+        "request": ["requests"],
     },
 )
