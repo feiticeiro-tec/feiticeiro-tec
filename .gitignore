@@ -1,2 +1,8 @@
 .devcontainer
-__pycache__
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
