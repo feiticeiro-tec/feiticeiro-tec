@@ -59,6 +59,9 @@ class CepConsultaV1(BaseModel):
 
 
 class Cep:
+    CepNotFound = CepNotFound
+    CepError = CepError
+
     def __init__(self, version):
         self.version = version
 

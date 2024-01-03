@@ -1,0 +1,9 @@
+DEFAULT:
+  teste: 0
+  ola: "mundo"
+
+DEV:
+  teste: 1
+  objeto:
+    x: 2
+    y: "Y"
