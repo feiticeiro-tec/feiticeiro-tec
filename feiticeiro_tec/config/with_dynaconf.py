@@ -23,10 +23,10 @@ class TypeEnv(BaseModel):
 
         obj = cls(
             **{
-                **ENV_ROOT,
                 **DEFAULT_SETTINGS,
                 **ENV_SETTINGS,
                 **SETTINGS_DICT,
+                **ENV_ROOT,
                 "ENV": env,
             }
         )
