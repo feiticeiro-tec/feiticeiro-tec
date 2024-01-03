@@ -42,7 +42,7 @@ class REGEX(AbsValidatorType):
             return True
 
     def mask(self, value) -> str:
-        if type(self.REGEX) == str:
+        if isinstance(self.REGEX, str):
             self.REGEX = re.compile(self.REGEX)
         return self.REGEX.sub(self.MASK_MATCH, value)
 
@@ -59,14 +59,14 @@ class REGEXMATCH(AbsValidatorType):
         ...
 
     def validate(self, value) -> bool:
-        if type(self.REGEX) == str:
+        if isinstance(self.REGEX, str):
             self.REGEX = re.compile(self.REGEX)
         if self.REGEX.match(value):
             return True
         return False
 
     def mask(self, value) -> str:
-        if type(self.REGEX) == str:
+        if isinstance(self.REGEX, str):
             self.REGEX = re.compile(self.REGEX)
         return self.REGEX.sub(self.MASK_MATCH, value)
 
