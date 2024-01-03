@@ -12,11 +12,16 @@ def test_cep_v1():
 
 def test_cep_v2():
     cep = Cep(version=2)
-    consulta: CepConsultaV2 = cep.get("59380000")
+    consulta: CepConsultaV2 = cep.get("59010000")
     assert isinstance(consulta, CepConsultaV2)
-    assert consulta.cep == "59380000"
+    assert consulta.cep == "59010000"
     assert consulta.state == "RN"
-    assert consulta.city == "Currais Novos"
+    assert consulta.city == "Natal"
+    assert consulta.neighborhood == "Praia do Meio"
+    assert consulta.street == "Avenida Presidente Café Filho"
+    assert consulta.location.type == "Point"
+    assert consulta.location.coordinates.latitude == -5.7698204
+    assert consulta.location.coordinates.longitude == -35.1960325
 
 
 def test_cep_v1_not_found():
