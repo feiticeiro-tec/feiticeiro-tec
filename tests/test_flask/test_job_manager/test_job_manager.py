@@ -17,7 +17,7 @@ def test_endpoint_seguro():
     with app.test_client() as client:
         response = client.get("/jobs/")
         assert response.status_code == 302
-        assert response.location == "/jobs/login"
+        assert response.location == "/jobs/login/"
 
 
 def test_login():
@@ -25,11 +25,11 @@ def test_login():
     app.secret_key = "123"
     JobManager(app)
     with app.test_client() as client:
-        response = client.get("/jobs/login")
+        response = client.get("/jobs/login/")
         assert response.status_code == 200
 
     with app.test_client() as client:
-        response = client.post("/jobs/login", data={"acesso": "123"})
+        response = client.post("/jobs/login/", data={"acesso": "123"})
         assert response.status_code == 302
         assert response.location == "/jobs/"
         assert client.get("/jobs/").status_code == 200
