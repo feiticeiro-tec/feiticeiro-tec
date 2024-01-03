@@ -36,6 +36,8 @@ class REGEX(AbsValidatorType):
     def validate(self, value) -> bool:
         value = clean_value(value, not self.CLEAR)
         value_mask = self.mask(value)
+        if not value or not value_mask:
+            return False
         if value == clean_value(value_mask, not self.CLEAR):
             return True
 
