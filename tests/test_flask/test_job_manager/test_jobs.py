@@ -1,7 +1,5 @@
 from feiticeiro_tec.flask.job_manager import JobManager
 from flask import Flask
-import re
-from functools import partial
 from multiprocessing import SimpleQueue
 
 
