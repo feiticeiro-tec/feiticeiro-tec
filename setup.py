@@ -35,7 +35,6 @@ setup(
     ],
     extras_require={
         "dynaconf": ["dynaconf"],
-        "api": ["fdantic"],
         "validate": ["validate_docbr"],
         "request": ["requests"],
     },
