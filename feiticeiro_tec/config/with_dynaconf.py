@@ -2,6 +2,7 @@ from dynaconf import Dynaconf
 from loguru import logger
 from pydantic import BaseModel
 from enum import Enum
+import os
 
 
 class EnvEnum(Enum):
@@ -16,11 +17,13 @@ class TypeEnv(BaseModel):
     @classmethod
     def create_config(cls, settings, env):
         SETTINGS_DICT = settings.as_dict()
+        ENV_ROOT = dict(os.environ)
         DEFAULT_SETTINGS = SETTINGS_DICT.pop("DEFAULT", {})
         ENV_SETTINGS = SETTINGS_DICT.pop(env, {})
 
         obj = cls(
             **{
+                **ENV_ROOT,
                 **DEFAULT_SETTINGS,
                 **ENV_SETTINGS,
                 **SETTINGS_DICT,
@@ -34,6 +37,7 @@ class TypeEnv(BaseModel):
     def load_env(cls, default, env, settings_files=[], prefix=""):
         return cls.create_config(
             Dynaconf(
+                environments=True,
                 envvar_prefix=prefix,
                 default_env=default,
                 env=env,
