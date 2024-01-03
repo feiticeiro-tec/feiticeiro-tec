@@ -24,7 +24,7 @@ class INCRICAOMUNICIPAL(REGEX):
 
 
 class EMAIL(REGEXMATCH):
-    REGEX = r"(\w+)(@)(\w+)(.)(\w+)"
+    REGEX = r"([\w\W]+)(@)([\w\W]+)(.)([\w\W]+)"
     MASK_MATCH = r"\1\2\3\4\5"
 
     def validate(self, value) -> bool:

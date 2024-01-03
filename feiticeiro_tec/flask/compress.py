@@ -1,4 +1,5 @@
-from flask import Flask
+
+from flask import Flask, request
 import gzip
 from functools import wraps
 
@@ -14,8 +15,8 @@ class Compress:
 
     @classmethod
     def after_request(cls, response):
-        response.headers.add("Accept-Encoding", "gzip")
-        response.headers.add("Vary", "Accept-Encoding")
+        if request.headers.get("Accept-Encoding", "") != "gzip":
+            return response
         if (
             response.status_code < 200
             or response.status_code >= 300
