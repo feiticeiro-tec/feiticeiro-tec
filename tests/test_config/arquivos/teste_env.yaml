@@ -4,4 +4,6 @@ DEFAULT:
 
 DEV:
   teste: 1
-  
+  objeto:
+    x: 2
+    y: "Y"
