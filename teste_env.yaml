@@ -1,7 +1,0 @@
-DEFAULT:
-  teste: 0
-  ola: "mundo"
-
-DEV:
-  teste: 1
-  
