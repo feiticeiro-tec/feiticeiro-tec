@@ -7,6 +7,8 @@ import os
 def listar_subpastas(diretorio):
     subpastas = [diretorio]
     for nome in os.listdir(diretorio):
+        if nome == "__pycache__":
+            continue
         caminho = os.path.join(diretorio, nome)
         if os.path.isdir(caminho):
             subpastas.append(caminho)
@@ -19,7 +21,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="feiticeiro_tec",
-    version="0.2.0",
+    version="0.3.0",
     url="https://github.com/feiticeiro-tec/feiticeiro-tec",
     license="BSD3",
     author="Silvio Henrique Cruz Da Silva",
@@ -29,6 +31,11 @@ setup(
     keywords="python, feiticeiro_tec, utilidades, feiticeiro, tec",
     description=("pacote de utilidades para projetos python"),
     packages=listar_subpastas("feiticeiro_tec"),
+    package_data={
+        "feiticeiro_tec": [
+            "flask/job_manager/templates/job_manager/*",
+        ],
+    },
     install_requires=[
         "loguru",
         "pydantic",
