@@ -146,7 +146,7 @@ class RuleRouter:
         else:
             router.uri = uri
             router.subdomain = subdomain
-            router.description = description
+            router.description = description or router.description
             router.active = active
         return router
 
@@ -174,18 +174,19 @@ class RuleRouter:
                 router_method.active = False
 
     def init_permissions(self):
-        methods = {}
-        for rule in self.mapper_rules():
-            _methods = self._create_methods(rule["methods"], methods)
-            _router = self._create_router(
-                endpoint=rule["endpoint"],
-                uri=rule["uri"],
-                subdomain=rule["subdomain"],
-                description=None,
-                active=True,
-            )
-            self._create_relation_router_method(_router, _methods)
-        self.db.session.commit()
+        with self.app.app_context():
+            methods = {}
+            for rule in self.mapper_rules():
+                _methods = self._create_methods(rule["methods"], methods)
+                _router = self._create_router(
+                    endpoint=rule["endpoint"],
+                    uri=rule["uri"],
+                    subdomain=rule["subdomain"],
+                    description=None,
+                    active=True,
+                )
+                self._create_relation_router_method(_router, _methods)
+            self.db.session.commit()
 
     def init_view(self):
         admin = self.app.extensions.get("admin")
@@ -216,3 +217,5 @@ class RuleRouter:
             admin.add_view(
                 ModelView(self.Method, self.db.session, category="Permissions")
             )
+        else:
+            raise Exception("Instancia de ADMIN não foi encontrada")
