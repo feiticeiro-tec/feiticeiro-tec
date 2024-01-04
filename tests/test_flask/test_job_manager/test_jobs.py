@@ -5,16 +5,34 @@ from multiprocessing import SimpleQueue
 
 def test_new_task():
     app = Flask(__name__)
-    app.secret_key = "123"
     jm = JobManager(app)
     processo = jm.tasks.new("TASK TASK BEM AQUI", lambda: print("teste"))
 
     with app.test_client() as client:
-        response = client.post(
-            "/jobs/login",
-            data={"acesso": "123"},
+        response = client.get(
+            "/admin/jobs/",
             follow_redirects=True,
         )
+        assert str(processo.uuid) in response.text
+
+
+def test_decorate_task():
+    app = Flask(__name__)
+    jm = JobManager(app)
+
+    def teste_olaMundo():
+        """teste de descrição"""
+        print("teste")
+
+    processo = jm.tasks.task()(teste_olaMundo)
+
+    with app.test_client() as client:
+        response = client.get(
+            "/admin/jobs/",
+            follow_redirects=True,
+        )
+        assert str("teste_olaMundo") in response.text
+        assert str("teste de descrição") in response.text
         assert str(processo.uuid) in response.text
 
 
@@ -33,12 +51,7 @@ def test_run_job():
     )
 
     with app.test_client() as client:
-        client.post(
-            "/jobs/login",
-            data={"acesso": "123"},
-            follow_redirects=True,
-        )
-        x = client.post(f"/jobs/{processo.uuid}/", follow_redirects=True)
+        x = client.post(f"/admin/jobs/{processo.uuid}/", follow_redirects=True)
         assert x.status_code == 200
 
     assert hook.get() == 182653

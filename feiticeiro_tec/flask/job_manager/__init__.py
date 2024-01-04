@@ -3,89 +3,73 @@ from flask import (
     render_template,
     request,
     render_template_string,
-    session,
-    redirect,
-    url_for,
 )
-import os
 from flask.blueprints import Blueprint
 from .jobs import ManagerProcess
+from flask_admin import Admin, BaseView, expose
+from typing import Callable
 
 
 class JobManager:
     tasks = ManagerProcess()
-    password_key = None
+    render_template = render_template
+    render_template_string = render_template_string
 
-    def __init__(self, app: Flask = None, password_key=None):
+    def __init__(self, app: Flask = None, is_accessible: Callable = None):
         if app:
-            self.init_app(app)
+            self.init_app(app=app, is_accessible=is_accessible)
 
-        if password_key:
-            self.set_password_key(password_key)
-
-    def set_password_key(self, password_key):
-        self.password_key = password_key
-
-    def init_app(self, app: Flask):
+    def init_app(self, app: Flask, is_accessible: Callable = None):
         self.app = app
-        self.app.extensions["job_manager"] = self
         app.extensions["job_manager"] = self
-        if not self.password_key:
-            password = os.environ.get("JOB_MANAGER_PASSWORD_KEY")
-            if not password:
-                if not app.secret_key:
-                    raise ValueError("JOB_MANAGER_PASSWORD_KEY não definido!")
-                password = app.secret_key
-            self.set_password_key(password)
         self.blueprint = self.create_blueprint()
-        self.add_urls(self.blueprint)
         app.register_blueprint(self.blueprint)
+        self.init_view(is_accessible)
         return self
 
+    def init_view(self, is_accessible):
+        admin = self.app.extensions.get("admin")
+        if not admin:
+            admin = Admin(
+                app=self.app,
+                name=self.app.name,
+                template_mode="bootstrap3",
+            )
+        else:
+            admin = admin[0]
+        self.admin = admin
+        admin.add_view(self.get_view(is_accessible))
+
+    def get_view(self, is_accessible: Callable = None):
+        jm = self
+
+        if not is_accessible:
+            is_accessible = lambda: True  # noqa
+
+        class JobsViews(BaseView):
+            def is_accessible(self):
+                return is_accessible()
+
+            @expose("/", methods=("GET",))
+            @expose("/<uuid:uuid>/", methods=("POST", "DELETE"))
+            def index(self, uuid=None):
+                jm.render_template = self.render
+                return jm.jobs(uuid=uuid)
+
+        return JobsViews(name="Jobs", endpoint="jobs")
+
     def jobs(self, uuid=None):
-        if not self.is_logged():
-            return redirect(url_for("job_manager.login"))
         if request.method == "DELETE":
-            processo = self.tasks.stop(uuid)
-            component = self.render_job(uuid, processo)
-            return component
+            self.tasks.stop(uuid)
+            return self.render_template("/job_manager/reload.html")
         elif request.method == "POST":
-            processo = self.tasks.restart(uuid)
-            component = self.render_job(uuid, processo)
-            return component
+            self.tasks.restart(uuid)
+            return self.render_template("/job_manager/reload.html")
         data = {"jobs": tuple(self.tasks)}
-        return render_template("/job_manager/index.html", data=data)
-
-    def check_password(self, password):
-        return password == self.password_key
-
-    def set_logged(self):
-        session["job_login"] = True
-
-    def is_logged(self):
-        return session.get("job_login", False)
-
-    def set_logout(self):
-        session.pop("job_login", None)
-
-    def login(self):
-        errors = {}
-        if request.method == "POST":
-            if self.check_password(request.form.get("acesso")):
-                self.set_logged()
-                return redirect(url_for("job_manager.jobs"))
-            errors = {"acesso": "Login invalido!"}
-        return render_template("/job_manager/login.html", errors=errors)
-
-    def logout(self):
-        self.set_logout()
-        return redirect(url_for("job_manager.login"))
+        return self.render_template("/job_manager/index.html", data=data)
 
     def register_blueprint(self, blueprint: Blueprint):
         self.app.register_blueprint(blueprint)
-
-    def add_urls(self, blueprint: Blueprint):
-        blueprint.add_url_rule("/", "jobs", self.jobs)
 
     def create_blueprint(self, url_prefix="/jobs"):
         blueprint = Blueprint(
@@ -94,56 +78,4 @@ class JobManager:
             url_prefix=url_prefix,
             template_folder="templates",
         )
-        blueprint.add_url_rule(
-            "/login/",
-            "login",
-            self.login,
-            methods=["GET", "POST"],
-        )
-        blueprint.add_url_rule(
-            "/",
-            "jobs",
-            self.jobs,
-            methods=["GET"],
-        )
-        blueprint.add_url_rule(
-            "/<uuid:uuid>/",
-            "jobs-uuid",
-            self.jobs,
-            methods=["DELETE", "POST"],
-        )
-        blueprint.add_url_rule(
-            "/logout/",
-            "logout",
-            self.logout,
-            methods=["GET"],
-        )
         return blueprint
-
-    def render_job(self, uuid, job=None):
-        component = """
-        {% from 'job_manager/_component_job_macro.html' import ComponentJob %}
-        {{
-            ComponentJob(
-                uuid=job.uuid,
-                grupo=job.group,
-                titulo=job.name,
-                descricao=job.description,
-                is_running=job.is_running,
-                is_task=job.is_task,
-                last_run=job.last_run,
-                stoped=job.stoped
-            )
-        }}"""
-        if job:
-            component = render_template_string(
-                component,
-                job=job,
-            )
-        else:
-            component = render_template_string(
-                component,
-                job=self.tasks.find_by_uuid(uuid),
-            )
-
-        return component

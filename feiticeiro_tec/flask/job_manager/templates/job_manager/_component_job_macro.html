@@ -5,6 +5,7 @@
 {% set root_class = 'jobs-stopped' %}
 {% endif %}
 
+<div id="reload"></div>
 
 <div class="jobs_row {{root_class}}" id="component-{{uuid}}">
     <div class="jobs_icon">
@@ -32,12 +33,12 @@
         {% endif %}
         {% if is_running == True %}
         <button type="button" class="actions_button controler" hx-delete="./{{uuid}}" hx-trigger="click"
-            hx-target="#component-{{uuid}}" hx-swap="outerHTML">
+            hx-target="#reload" hx-swap="outerHTML">
             <i class="fa-solid fa-stop"></i>
         </button>
         {% else %}
         <button type="button" class="actions_button controler" hx-post="./{{uuid}}" hx-trigger="click"
-            hx-target="#component-{{uuid}}" hx-swap="outerHTML">
+            hx-target="#reload" hx-swap="outerHTML">
             <i class="fa-solid fa-play"></i>
         </button>
         {% endif %}
