@@ -101,7 +101,7 @@ class ManagerProcess:
             if processo.target == function:
                 return processo
 
-    def decorate(
+    def task(
         self,
         *args,
         name=None,
