@@ -1,5 +1,6 @@
 from feiticeiro_tec.flask.job_manager import JobManager
 from flask import Flask
+from flask_admin import Admin
 
 
 def test_init_app():
@@ -11,7 +12,9 @@ def test_init_app():
 def test_login():
     app = Flask(__name__)
     app.secret_key = "123"
-    JobManager(app, lambda: False)
+    Admin(app)
+    jm = JobManager(app)
+    jm.init_view(lambda: False)
     with app.test_client() as client:
         response = client.get("/admin/jobs/")
         assert response.status_code == 403
