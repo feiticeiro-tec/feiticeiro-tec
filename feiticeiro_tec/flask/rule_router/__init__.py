@@ -211,15 +211,25 @@ class RuleRouter:
                 form_columns = columns
 
             admin.add_view(
-                GenericView(self.Router, self.db.session, category="Permissions")
+                GenericView(
+                    self.Router,
+                    self.db.session,
+                    category="Permissions",
+                )
             )
             admin.add_view(
                 RouterMethodView(
-                    self.RouterMethod, self.db.session, category="Permissions"
+                    self.RouterMethod,
+                    self.db.session,
+                    category="Permissions",
                 ),
             )
             admin.add_view(
-                GenericView(self.Method, self.db.session, category="Permissions")
+                GenericView(
+                    self.Method,
+                    self.db.session,
+                    category="Permissions",
+                )
             )
         else:
             raise Exception("Instancia de ADMIN não foi encontrada")
