@@ -95,7 +95,8 @@ class RuleRouter:
             )
 
             def __repr__(self):
-                return f"<RouterMethod {self.router_endpoint}:{self.method_rule}>"
+                args = f"{self.router_endpoint}:{self.method_rule}"
+                return f"<RouterMethod {args}>"
 
         class Router(self.get_abstratc_router(db)):
             __tablename__ = "Router"
