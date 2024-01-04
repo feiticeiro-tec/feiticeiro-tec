@@ -16,6 +16,26 @@ def test_new_task():
         assert str(processo.uuid) in response.text
 
 
+def test_decorate_task():
+    app = Flask(__name__)
+    jm = JobManager(app)
+
+    def teste_olaMundo():
+        """teste de descrição"""
+        print("teste")
+
+    processo = jm.tasks.task()(teste_olaMundo)
+
+    with app.test_client() as client:
+        response = client.get(
+            "/admin/jobs/",
+            follow_redirects=True,
+        )
+        assert str("teste_olaMundo") in response.text
+        assert str("teste de descrição") in response.text
+        assert str(processo.uuid) in response.text
+
+
 def test_run_job():
     app = Flask(__name__)
     app.secret_key = "123"
