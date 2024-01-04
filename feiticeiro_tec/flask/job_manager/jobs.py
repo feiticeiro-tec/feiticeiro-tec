@@ -153,7 +153,7 @@ class ManagerProcess:
 
     def find_by_uuid(self, uuid):
         for processo in self._get_all():
-            if processo.uuid == uuid:
+            if str(processo.uuid) == str(uuid):
                 return processo
 
     def stop(self, uuid):
