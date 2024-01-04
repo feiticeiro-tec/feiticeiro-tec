@@ -44,6 +44,6 @@ setup(
         "dynaconf": ["dynaconf"],
         "validate": ["validate_docbr"],
         "request": ["requests"],
-        "flask": ["flask", "flask_admin"],
+        "flask": ["flask", "flask_admin", "flask_sqlalchemy"],
     },
 )
