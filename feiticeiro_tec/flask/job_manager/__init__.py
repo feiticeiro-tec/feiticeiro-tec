@@ -37,6 +37,7 @@ class JobManager:
             )
         else:
             admin = admin[0]
+        self.admin = admin
         admin.add_view(self.get_view(is_accessible))
 
     def get_view(self, is_accessible: Callable = None):
