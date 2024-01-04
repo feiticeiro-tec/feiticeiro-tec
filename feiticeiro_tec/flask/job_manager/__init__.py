@@ -6,8 +6,7 @@ from flask import (
 )
 from flask.blueprints import Blueprint
 from .jobs import ManagerProcess
-from flask_admin import Admin, BaseView, expose
-from typing import Callable
+from flask_admin import BaseView, expose
 
 
 class JobManager:
@@ -15,36 +14,27 @@ class JobManager:
     render_template = render_template
     render_template_string = render_template_string
 
-    def __init__(self, app: Flask = None, is_accessible: Callable = None):
+    def __init__(self, app: Flask = None):
         if app:
-            self.init_app(app=app, is_accessible=is_accessible)
+            self.init_app(app=app)
 
-    def init_app(self, app: Flask, is_accessible: Callable = None):
+    def init_app(self, app: Flask):
         self.app = app
         app.extensions["job_manager"] = self
         self.blueprint = self.create_blueprint()
         app.register_blueprint(self.blueprint)
-        self.init_view(is_accessible)
         return self
 
-    def init_view(self, is_accessible):
+    def init_view(self, is_accessible=lambda: True):
         admin = self.app.extensions.get("admin")
         if not admin:
-            admin = Admin(
-                app=self.app,
-                name=self.app.name,
-                template_mode="bootstrap3",
-            )
-        else:
-            admin = admin[0]
-        self.admin = admin
+            raise Exception("Instancia de ADMIN não foi encontrada")
+        admin = admin[0]
         admin.add_view(self.get_view(is_accessible))
+        self.admin = admin
 
-    def get_view(self, is_accessible: Callable = None):
+    def get_view(self, is_accessible=lambda: True):
         jm = self
-
-        if not is_accessible:
-            is_accessible = lambda: True  # noqa
 
         class JobsViews(BaseView):
             def is_accessible(self):

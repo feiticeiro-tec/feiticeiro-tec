@@ -1,11 +1,14 @@
 from feiticeiro_tec.flask.job_manager import JobManager
 from flask import Flask
+from flask_admin import Admin
 from multiprocessing import SimpleQueue
 
 
 def test_new_task():
     app = Flask(__name__)
+    Admin(app)
     jm = JobManager(app)
+    jm.init_view()
     processo = jm.tasks.new("TASK TASK BEM AQUI", lambda: print("teste"))
 
     with app.test_client() as client:
@@ -18,7 +21,9 @@ def test_new_task():
 
 def test_decorate_task():
     app = Flask(__name__)
+    Admin(app)
     jm = JobManager(app)
+    jm.init_view()
 
     def teste_olaMundo():
         """teste de descrição"""
@@ -39,7 +44,9 @@ def test_decorate_task():
 def test_run_job():
     app = Flask(__name__)
     app.secret_key = "123"
+    Admin(app)
     jm = JobManager(app)
+    jm.init_view()
     hook = SimpleQueue()
 
     def run():
