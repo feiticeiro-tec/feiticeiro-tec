@@ -21,7 +21,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="feiticeiro_tec",
-    version="0.3.0",
+    version="0.4.0",
     url="https://github.com/feiticeiro-tec/feiticeiro-tec",
     license="BSD3",
     author="Silvio Henrique Cruz Da Silva",
