@@ -188,7 +188,7 @@ class RuleRouter:
                 self._create_relation_router_method(_router, _methods)
             self.db.session.commit()
 
-    def init_view(self):
+    def init_view(self, _is_accessible=lambda: True):
         admin = self.app.extensions.get("admin")
         if admin:
             admin = admin[0]
@@ -202,12 +202,16 @@ class RuleRouter:
                 )
             )
 
-            class RouterMethodView(ModelView):
+            class GenericView(ModelView):
+                def is_accessible(self):
+                    return _is_accessible()
+
+            class RouterMethodView(GenericView):
                 column_list = columns
                 form_columns = columns
 
             admin.add_view(
-                ModelView(self.Router, self.db.session, category="Permissions")
+                GenericView(self.Router, self.db.session, category="Permissions")
             )
             admin.add_view(
                 RouterMethodView(
@@ -215,7 +219,7 @@ class RuleRouter:
                 ),
             )
             admin.add_view(
-                ModelView(self.Method, self.db.session, category="Permissions")
+                GenericView(self.Method, self.db.session, category="Permissions")
             )
         else:
             raise Exception("Instancia de ADMIN não foi encontrada")

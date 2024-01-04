@@ -82,3 +82,38 @@ def test_rule_router_init_view():
 
         response = client.get("/admin/method/", follow_redirects=True)
         assert response.status_code == 200
+
+
+def test_rule_router_init_view_permission():
+    app = Flask(__name__)
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
+    Admin(app, name="Teste", template_mode="bootstrap3")
+    db = SQLAlchemy(app)
+
+    rules = RuleRouter(app=app, db=db)
+
+    @app.route("/")
+    def index():
+        return "Hello World!"
+
+    with app.app_context():
+        db.create_all()
+
+    rules.init_view(lambda: False)
+
+    with app.test_client() as client:
+        response = client.get("/admin/", follow_redirects=True)
+        assert "Permissions" not in response.text
+        assert "Router" not in response.text
+        assert "Router Method" not in response.text
+        assert "Method" not in response.text
+
+    with app.test_client() as client:
+        response = client.get("/admin/router/", follow_redirects=True)
+        assert response.status_code == 403
+
+        response = client.get("/admin/routermethod/", follow_redirects=True)
+        assert response.status_code == 403
+
+        response = client.get("/admin/method/", follow_redirects=True)
+        assert response.status_code == 403
