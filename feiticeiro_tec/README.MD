@@ -133,3 +133,15 @@ admin = Admin(app)
 
 rules.init_view(lambda:True)
 ```
+#### Screenshots
+> essa é a exibição do endpoint existente
+![endpoint](https://github.com/feiticeiro-tec/feiticeiro-tec/assets/53744463/b3bb4997-2f6e-4e56-9df8-b57c4ab221cb)
+
+> esse é a exibição dos methods reconhecidos
+![method](https://github.com/feiticeiro-tec/feiticeiro-tec/assets/53744463/fdd88e8d-9d2e-4bdf-9aea-174377281384)
+
+> esse é a exibição da relação de endpoint e method onde é recomendado fazer a relação com a entidade que deve ter a permissão.
+![endpoint-method](https://github.com/feiticeiro-tec/feiticeiro-tec/assets/53744463/e9562a0f-d31d-44b7-97dd-463167bae353)
+
+> esse é o diagrama da relação das permissoes.
+![diagrama](https://github.com/feiticeiro-tec/feiticeiro-tec/assets/53744463/cb7b1c24-096f-4579-8be7-f7dfe9a34cab)
