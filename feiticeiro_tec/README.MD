@@ -145,3 +145,26 @@ rules.init_view(lambda:True)
 
 > esse é o diagrama da relação das permissoes.
 ![diagrama](https://github.com/feiticeiro-tec/feiticeiro-tec/assets/53744463/cb7b1c24-096f-4579-8be7-f7dfe9a34cab)
+
+## Request Cep
+O request cep ajuda na busca de endereço atraves do cep, ele usa o serviço do brasil api.
+
+### Como usar
+```python
+from feiticeiro_tec.request.cep import Cep, CepConsultaV1
+
+
+x:CepConsultaV1 = Cep(version=1).get("59010015")
+print(x)
+
+```
+```shell
+<CepConsultaV1
+    cep='59010015'
+    state='RN'
+    city='Natal'
+    neighborhood='Praia do Meio'
+    street='Rua Miramar'
+    service='correios'
+/>
+```
