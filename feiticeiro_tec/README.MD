@@ -89,3 +89,47 @@ print(setting.SECRET_KEY) # >> dev_secret_key
 print(setting.DEBUG) # >> True
 ```
 > Todas as declareções fica em UPPERCASE para indicar que é uma constante
+
+
+## RuleRouter
+O RuleRouter ajuda na criação de permissões de acesso, baseado na rotas da sua aplicação, ele vai criar uma permissão para rota e method usado, dessa forma é possivel criar permissões de acesso de forma customizada.
+
+### Como usar
+Primeiro vamos instanciar o app do flask
+```python
+from flask import Flask
+
+
+app = Flask(__name__)
+app.secret_key = "secret"
+```
+como precisamos de um banco de dados para armazenar as permissões vamos instanciar o sqlalchemy
+```python
+from flask_sqlalchemy import SQLAlchemy
+
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
+db = SQLAlchemy(app)
+```
+Agora vamos instanciar o RuleRouter
+```python
+rules = RuleRouter(app, db)
+```
+Agora vamos criar as rotas que vão ser usadas para criar as permissões
+```python
+@app.route("/")
+def index():
+    return "Hello World"
+```
+Agora vamos iniciar o banco de dados e criar as permissões
+```python
+with app.app_context():
+    db.create_all()
+    rules.init_routes()
+```
+Tambem é possivel colocar as permissoes para exibição dentro do flask-admin, basta inicalizar o flask Admine chamar o init_view e passar a função validação de acesso
+```python
+from flask_admin import Admin
+admin = Admin(app)
+
+rules.init_view(lambda:True)
+```
