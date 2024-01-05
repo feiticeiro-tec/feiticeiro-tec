@@ -146,6 +146,19 @@ rules.init_view(lambda:True)
 > esse é o diagrama da relação das permissoes.
 ![diagrama](https://github.com/feiticeiro-tec/feiticeiro-tec/assets/53744463/cb7b1c24-096f-4579-8be7-f7dfe9a34cab)
 
+## Compress
+O compress para flask ele ajuda a comprimir as respostas da sua aplicação, ele usa o gzip para comprimir as respostas quando o client para que aceita a compressão, que é indicado no headers com a key Accept-Encoding e valor gzip
+
+### Como usar
+basta instanciar o flask e em seguida o Compress
+```python
+from feiticeiro_tec.flask.compress import Compress
+from flask import Flask
+
+app = Flask(__name__)
+Compress(app)
+```
+
 ## Request Cep
 O request cep ajuda na busca de endereço atraves do cep, ele usa o serviço do brasil api.
 
