@@ -50,3 +50,5 @@ job_manager.tasks.new(
 ```
 
 Pronto executar flask run e acessar http://localhost:5000/admin/jobs/ vai ser as funções que podem ser executadas manualmente
+
+![imagem da tela](https://github.com/feiticeiro-tec/feiticeiro-tec/assets/53744463/215ac186-a8c5-4843-9cb3-06a0f36fb929)
