@@ -168,3 +168,22 @@ print(x)
     service='correios'
 />
 ```
+
+
+## Validate
+no validate temos alguns tipos de validação de identificação, como cpf, cnpj, inscricao municipal e email
+
+### Como usar
+```python
+from feiticeiro_tec.validate import Cnpj, Cpf, CpfCnpj, InscricaoMunicipal, Email
+
+
+try:
+    Cnpj().validate("00.000.000/0000-00")
+    Cpf().validate("000.000.000-00")
+    CpfCnpj().validate("000.000.000-00")
+    InscricaoMunicipal().validate("000.000-00")
+    Email().validate("test@host.com")
+except ValueError as e:
+    print(e)
+```
