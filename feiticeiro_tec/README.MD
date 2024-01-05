@@ -52,3 +52,40 @@ job_manager.tasks.new(
 Pronto executar flask run e acessar http://localhost:5000/admin/jobs/ vai ser as funções que podem ser executadas manualmente
 
 ![imagem da tela](https://github.com/feiticeiro-tec/feiticeiro-tec/assets/53744463/215ac186-a8c5-4843-9cb3-06a0f36fb929)
+
+## Config With Dynaconf
+O config with dynaconf ajuda na coleta de variaveis validando o tipo e se é obrigatorio ou não, dessa forma é possivel garantir que todas as envs necessarias para o funcionamento do sistema estejam presentes.
+
+### Como usar
+Primeiro vamos definir quais seram nossa variaveis.
+
+```python
+from feiticeiro_tec.config.with_dynaconf import TypeEnv
+
+class MyEnv(TypeEnv):
+    SECRET_KEY: str
+```
+
+agora vamos ler as variaveis, vamos definir qual vai ser o ambiente default, qual ambiente vamos usar no exemplo abaixo estamos usando o ambiente DEV, e iremos ler as variaveis de um arquivo chamado settings.yaml
+
+```yaml
+# settings.yaml
+DEFAULT:
+  debug: false
+
+DEV:
+  debug: true
+  secret_key: 'dev_secret_key'
+```
+
+```python
+setting = MyEnv.load_env(
+    default="DEFAULT",
+    env="DEV",
+    settings_files=["settings.yaml"],
+)
+
+print(setting.SECRET_KEY) # >> dev_secret_key
+print(setting.DEBUG) # >> True
+```
+> Todas as declareções fica em UPPERCASE para indicar que é uma constante
