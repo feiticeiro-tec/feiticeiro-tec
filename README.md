@@ -10,7 +10,7 @@ Olá, eu sou o Silvio Henrique! 👋
 ## 🏗️
 Atualmente, meu foco está em DDD (Domain-Driven Design) e TDD (Test-Driven Development) para garantir alta qualidade nas entregas  
 ## 🎯
-Além do meu trabalho principal, tenho como hobby explorar brevemente "novas linguagens" que possam enriquecer meu conhecimento, mesmo que não sejam utilizadas no dia a dia, como Assembly (nada muito profundo, geralmente explorando por 2 a 3 dias)  
+Além do meu trabalho principal, tenho como hobby explorar brevemente "novas linguagens" que possam enriquecer meu conhecimento, mesmo que não sejam utilizadas no dia a dia
 ## 🤖
 Automatização de web scraping é uma das minhas especialidades, e embora eu os chame de automações, as páginas que visito dizem que eles não são exatamente robôs (pelo menos é o que elas afirmam! 😄)
 
